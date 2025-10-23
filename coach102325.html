@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Coach Gaga — The trusted math coach for K-12</title>
+  <meta name="description" content="Precision lesson planning, differentiation, and error analysis for grades 1–12. Built by math experts. Connect to ClassGaga to personalize using live learning data." />
+  <style>
+    /* =========
+       Base + Tokens
+       ========= */
+    :root{
+      --bg: #0f1115;
+      --panel: #12151b;
+      --panel-2:#171a21;
+      --ink: #f6f7f9;
+      --muted:#a9b0bd;
+      --brand:#5fd4ff; /* subtle accent */
+      --accent:#9EE37D; /* secondary accent */
+      --border:#242935;
+      --link:#d6e2ff;
+      --focus:#ffd166;
+      --radius:14px;
+      --radius-sm:10px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --max: 1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,Helvetica,sans-serif;
+      color:var(--ink); background:linear-gradient(180deg,#0c0e12 0%, #0f1115 100%);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:var(--link); text-decoration:none}
+    a:hover{text-decoration:underline}
+    img{max-width:100%; display:block}
+    .container{max-width:var(--max); margin-inline:auto; padding-inline:24px}
+    .section{padding:72px 0}
+    .section-tight{padding:48px 0}
+    .panel{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow)}
+    .panel-soft{background:var(--panel-2); border:1px solid var(--border); border-radius:var(--radius)}
+    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; background:#0b0d11; border:1px solid #202532; padding:.15rem .45rem; border-radius:6px}
+    .eyebrow{letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-size:.78rem}
+    .muted{color:var(--muted)}
+    .grid{display:grid; gap:20px}
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    @media (max-width:1024px){.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:800px){.grid-3{grid-template-columns:repeat(1,minmax(0,1fr))} .grid-2{grid-template-columns:1fr}}
+    h1,h2,h3{line-height:1.2; margin:0 0 12px}
+    h1{font-weight:800; font-size:clamp(2rem,3.2vw+1rem,3.4rem); letter-spacing:-.02em}
+    h2{font-weight:700; font-size:clamp(1.4rem,1.6vw+1rem,2rem)}
+    h3{font-weight:650; font-size:1.1rem}
+    p{margin:0 0 10px}
+    ul{margin:10px 0 0 18px}
+    .lead{font-size:1.125rem; color:#e4e7ee; max-width:800px}
+    /* =========
+       Header
+       ========= */
+    .site-header{
+      position:sticky; top:0; z-index:60; backdrop-filter:saturate(120%) blur(8px);
+      background:rgba(12,14,18,.6); border-bottom:1px solid var(--border)
+    }
+    .nav{
+      display:flex; align-items:center; gap:16px; padding:12px 0
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px; color:var(--ink); text-decoration:none
+    }
+    .logo{
+      width:28px; height:28px; border-radius:8px; background:radial-gradient(100% 100% at 20% 10%, var(--brand), #3aa9ff 40%, #2668ff 70%); 
+      box-shadow:0 0 0 2px rgba(255,255,255,.06) inset, 0 8px 20px rgba(58,169,255,.35)
+    }
+    .spacer{flex:1}
+    .nav-links{display:flex; gap:16px}
+    .nav-links a{padding:8px 10px; border-radius:8px}
+    .nav-links a:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
+    .cta{
+      display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:10px; border:1px solid #2a3140;
+      background:linear-gradient(180deg,#172030,#121725); color:var(--ink); text-decoration:none; font-weight:600
+    }
+    .cta:hover{background:#152033}
+    .cta-outline{background:transparent}
+    .menu-btn{display:none}
+    @media (max-width:900px){
+      .nav-links{display:none}
+      .menu-btn{display:inline-flex; margin-left:8px}
+      .mobile-drawer{display:none; position:fixed; inset:62px 12px auto 12px; background:var(--panel); border:1px solid var(--border);
+        border-radius:var(--radius); padding:12px; box-shadow:var(--shadow)}
+      .mobile-drawer a{display:block; padding:10px 12px; border-radius:8px}
+      .mobile-drawer a:hover{background:var(--panel-2)}
+    }
+
+    /* =========
+       Hero
+       ========= */
+    .hero{
+      padding:84px 0 40px;
+      background:
+        radial-gradient(1000px 400px at 70% -50%, rgba(95,212,255,.15), rgba(95,212,255,0) 60%),
+        radial-gradient(800px 400px at 20% 0%, rgba(158,227,125,.12), rgba(158,227,125,0) 60%);
+      border-bottom:1px solid var(--border);
+    }
+    .hero .deck{display:grid; grid-template-columns: 1.2fr .8fr; gap:28px}
+    @media (max-width:980px){.hero .deck{grid-template-columns:1fr}}
+    .hero-callouts{display:grid; gap:12px}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; background:#0c1017; border:1px solid #223047; color:#d9ecff; border-radius:999px; font-size:.85rem}
+    .btn-row{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px; border:1px solid #2a3140; 
+      background:linear-gradient(180deg,#1e2633,#161b25); color:white; font-weight:700}
+    .btn:hover{filter:brightness(1.05)}
+    .btn.secondary{background:transparent}
+    .mini{font-size:.92rem; color:var(--muted)}
+
+    /* =========
+       Cards + Lists
+       ========= */
+    .card{padding:18px; border:1px solid var(--border); border-radius:var(--radius); background:var(--panel-2)}
+    .card h3{margin-bottom:6px}
+    .list-clean{list-style:none; margin:0; padding:0; display:grid; gap:10px}
+    .list-clean li{display:flex; gap:10px}
+    .tick{
+      width:20px; height:20px; border-radius:6px; background:linear-gradient(180deg,#1f8cff,#1463e6); 
+      display:inline-grid; place-items:center; flex:0 0 20px
+    }
+    .tick svg{width:12px; height:12px; color:white}
+
+    /* =========
+       Tabs (Solutions)
+       ========= */
+    .tabs{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 18px}
+    .tab{
+      padding:10px 14px; border-radius:12px; background:transparent; color:var(--ink); border:1px solid #263044; cursor:pointer; font-weight:600
+    }
+    .tab[aria-selected="true"]{background:#182034}
+    .tabpanels > div{display:none}
+    .tabpanels > div.active{display:block}
+
+    /* =========
+       Pricing
+       ========= */
+    .plan{padding:20px; border:1px solid var(--border); border-radius:var(--radius); background:var(--panel-2)}
+    .plan.featured{border:1px solid #3458ff; box-shadow:0 0 0 1px rgba(52,88,255,.2) inset}
+    .price{font-size:1.8rem; font-weight:800}
+
+    /* =========
+       Security
+       ========= */
+    .kpi{display:flex; gap:16px; align-items:flex-start}
+    .badge{display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid var(--border); border-radius:999px; background:#0d1016}
+
+    /* =========
+       Footer
+       ========= */
+    footer{padding:48px 0; border-top:1px solid var(--border)}
+    .cols{display:grid; gap:24px; grid-template-columns:2fr 1fr 1fr 1fr}
+    @media (max-width:900px){.cols{grid-template-columns:1fr 1fr} }
+    @media (max-width:640px){.cols{grid-template-columns:1fr} }
+    .small{font-size:.9rem}
+    .copyright{margin-top:18px; color:var(--muted); font-size:.85rem; text-align:center}
+    /* Focus styles */
+    :focus-visible{outline:3px solid var(--focus); outline-offset:2px; border-radius:8px}
+  </style>
+</head>
+<body>
+  <!-- =======================
+       HEADER / NAV
+       ======================= -->
+  <header class="site-header" role="banner">
+    <div class="container nav" aria-label="Primary">
+      <a href="#home" class="brand">
+        <span class="logo" aria-hidden="true"></span>
+        <span>Coach Gaga</span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#product">Product</a>
+        <a href="#solutions">Solutions</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#security">Security</a>
+        <a href="#resources">Resources</a>
+        <a href="#company">Company</a>
+      </nav>
+      <div class="spacer"></div>
+      <a class="cta cta-outline" href="#enterprise">Enterprise</a>
+      <a class="cta" href="#signup">Start free</a>
+      <button class="cta menu-btn" id="menuBtn" aria-controls="mobileMenu" aria-expanded="false" aria-label="Open menu">Menu</button>
+    </div>
+    <div class="mobile-drawer container panel" id="mobileMenu" role="dialog" aria-modal="false" aria-label="Mobile menu">
+      <a href="#product">Product</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#security">Security</a>
+      <a href="#resources">Resources</a>
+      <a href="#company">Company</a>
+      <hr style="border-color:var(--border)">
+      <a href="#enterprise">Enterprise</a>
+      <a href="#signup">Start free</a>
+    </div>
+  </header>
+
+  <!-- =======================
+       HERO
+       ======================= -->
+  <main id="home" class="hero" role="main">
+    <div class="container deck">
+      <div>
+        <div class="chip" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Trusted by teachers and districts
+        </div>
+        <h1>The trusted math coach for K-12</h1>
+        <p class="lead">Precision lesson planning, differentiation, and error analysis—built by math experts. Connect to ClassGaga to personalize with live learning data.</p>
+        <div class="btn-row" style="margin:18px 0 8px">
+          <a class="btn" href="#signup">Start free</a>
+          <a class="btn secondary" href="#enterprise">See Enterprise</a>
+        </div>
+        <p class="mini">FERPA • COPPA • GDPR • SSO • DPA available</p>
+      </div>
+      <div class="panel" style="padding:18px">
+        <div class="eyebrow">How it feels</div>
+        <h3>Plan → Differentiate → Check → Respond</h3>
+        <div class="grid grid-2" style="margin-top:10px">
+          <div class="card">
+            <h3>Lesson Builder (10–20 min)</h3>
+            <p>Warm-up, worked example, and checks for understanding aligned to your standard.</p>
+          </div>
+          <div class="card">
+            <h3>Exit Ticket Generator</h3>
+            <p>Three items by DOK + exemplar solution + rubric. Export to Slides or PDF.</p>
+          </div>
+          <div class="card">
+            <h3>Differentiation Mixer</h3>
+            <p>Approaching / On-Track / Ready-to-Extend tasks with scaffolds and accommodations.</p>
+          </div>
+          <div class="card">
+            <h3>Misconception Finder</h3>
+            <p>Paste student work → get an error taxonomy and a reteach plan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- =======================
+       WHY MATH-ONLY
+       ======================= -->
+  <section class="section" id="why">
+    <div class="container">
+      <div class="grid grid-3">
+        <div class="panel">
+          <div style="padding:18px">
+            <div class="eyebrow">Math-first</div>
+            <h2>Depth over breadth</h2>
+            <p>Coach Gaga focuses on math. That means standards-aware plans, misconception-smart reteaches, and assessment-literate tasks that align with your scope & sequence.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Standards-aware planning</h3>
+          <p>Prerequisite map and depth-of-knowledge levels per standard.</p>
+        </div>
+        <div class="card">
+          <h3>Misconception-smart reteach</h3>
+          <p>Targets the errors your students actually make with concrete strategies and manipulatives.</p>
+        </div>
+        <div class="card">
+          <h3>Assessment-literate tasks</h3>
+          <p>Balanced item types and rubrics for formative and interim checks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================
+       PRODUCT
+       ======================= -->
+  <section class="section panel-soft" id="product">
+    <div class="container">
+      <div class="eyebrow">Product</div>
+      <h2>Coach flows, not a tool zoo</h2>
+      <p class="muted" style="max-width:800px">An opinionated set of math workflows with memory across tasks. Save your class context once—Coach Gaga remembers.</p>
+
+      <div class="grid grid-3" style="margin-top:18px">
+        <div class="card"><h3>Standards Decomposer</h3><p>Prereqs, misconceptions, manipulatives, and learning trajectory.</p></div>
+        <div class="card"><h3>Lesson Builder</h3><p>10–20 minute mini-lessons with warm-up, example, and CFUs.</p></div>
+        <div class="card"><h3>Exit Ticket Generator</h3><p>3 items by DOK + exemplar solution + rubric.</p></div>
+        <div class="card"><h3>Misconception Finder</h3><p>Paste student work → error taxonomy + reteach plan.</p></div>
+        <div class="card"><h3>Differentiation Mixer</h3><p>Approaching / On-Track / Extend tracks with scaffolds.</p></div>
+        <div class="card"><h3>Parent/Guardian Explainer</h3><p>Plain-language notes with at-home prompts.</p></div>
+        <div class="card"><h3>Grading & Feedback Writer</h3><p>Rubric-aligned quick comments with actionable hints.</p></div>
+        <div class="card"><h3>Assessment Composer</h3><p>Blueprint by standards & DOK; mixed item types.</p></div>
+      </div>
+
+      <div class="panel" style="margin-top:24px; padding:18px" id="enterprise">
+        <div class="grid grid-2">
+          <div>
+            <div class="eyebrow">Coach Gaga + Data (Enterprise)</div>
+            <h3>Gets 10× smarter when connected to your learning system</h3>
+            <p>With ClassGaga connected, Coach Gaga sees real-time mastery and error patterns, so plans auto-prioritize what matters today. Leaders get outcome reporting aligned to local assessments.</p>
+            <div class="btn-row" style="margin-top:10px">
+              <a class="btn" href="#contact">Talk to sales</a>
+              <a class="btn secondary" href="#security">Security & DPA</a>
+            </div>
+          </div>
+          <div class="card">
+            <h3>The loop</h3>
+            <ul class="list-clean">
+              <li><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/></svg></span> Teacher plans with Coach Gaga</li>
+              <li><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/></svg></span> Students learn in ClassGaga</li>
+              <li><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/></svg></span> Live data sharpens the next plan</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =======================
+       SOLUTIONS (Tabs)
+       ======================= -->
+  <section class="section" id="solutions">
+    <div class="container">
+      <div class="eyebrow">Solutions</div>
+      <h2>Built for classrooms. Ready for districts.</h2>
+
+      <div role="tablist" aria-label="Solutions tabs" class="tabs">
+        <button class="tab" role="tab" aria-selected="true" aria-controls="tab-teachers" id="tabbtn-teachers">Teachers</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-coaches" id="tabbtn-coaches">Math Coaches</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-districts" id="tabbtn-districts">Principals & Districts</button>
+      </div>
+
+      <div class="tabpanels">
+        <div id="tab-teachers" class="active" role="tabpanel" aria-labelledby="tabbtn-teachers">
+          <div class="grid grid-3">
+            <div class="card"><h3>Save 3–5 hours/week</h3><p>From plan to exit tickets in minutes with export to Docs/Slides/PDF.</p></div>
+            <div class="card"><h3>Differentiate fast</h3><p>Three leveled tracks with language supports and accommodations.</p></div>
+            <div class="card"><h3>Better feedback</h3><p>Rubric-aligned comments with math-specific hints.</p></div>
+          </div>
+          <div class="btn-row" style="margin-top:12px"><a class="btn" href="#signup">Start free</a></div>
+        </div>
+
+        <div id="tab-coaches" role="tabpanel" aria-labelledby="tabbtn-coaches">
+          <div class="grid grid-3">
+            <div class="card"><h3>Common error taxonomy</h3><p>Consistent language across classes improves reteach alignment.</p></div>
+            <div class="card"><h3>Push reteach plans</h3><p>Share structured mini-lessons and checks for understanding.</p></div>
+            <div class="card"><h3>Usage insights</h3><p>Simple signals to drive coaching cycles.</p></div>
+          </div>
+          <div class="btn-row" style="margin-top:12px"><a class="btn secondary" href="#contact">Talk to sales</a></div>
+        </div>
+
+        <div id="tab-districts" role="tabpanel" aria-labelledby="tabbtn-districts">
+          <div class="grid grid-3">
+            <div class="card"><h3>Enterprise-grade</h3><p>DPA • SSO/SIS/LMS • Admin analytics • Priority support.</p></div>
+            <div class="card"><h3>PD that sticks</h3><p>Two-stage teacher training (I & II), admin enablement, quarterly reviews.</p></div>
+            <div class="card"><h3>ClassGaga Connect</h3><p>Live mastery and misconception data to personalize instruction.</p></div>
+          </div>
+          <div class="btn-row" style="margin-top:12px"><a class="btn" href="#contact">Request a quote</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================
+       PRICING
+       ======================= -->
+  <section class="section panel-soft" id="pricing">
+    <div class="container">
+      <div class="eyebrow">Pricing</div>
+      <h2>Simple plans for classrooms and districts</h2>
+
+      <div class="grid grid-3" style="margin-top:16px">
+        <div class="plan">
+          <h3>Free (Teacher)</h3>
+          <ul>
+            <li>Unlimited generations (fair use)</li>
+            <li>Templates and exports</li>
+            <li>No class memory</li>
+          </ul>
+        </div>
+
+        <div class="plan featured">
+          <h3>Pro (Teacher)</h3>
+          <p class="muted">Billed annually</p>
+          <p class="price">$9.99–$12.99<span class="muted" style="font-size:.9rem"> / teacher / month</span></p>
+          <ul>
+            <li>Class memory</li>
+            <li>Differentiation Mixer</li>
+            <li>Misconception Finder (text)</li>
+            <li>Assessment Composer</li>
+            <li>Unlimited saves • Academy L2 • Labs access</li>
+          </ul>
+        </div>
+
+        <div class="plan">
+          <h3>Enterprise (School/District)</h3>
+          <ul>
+            <li>DPA • SSO/SIS/LMS • Admin analytics</li>
+            <li><strong>ClassGaga Connect</strong> (live data)</li>
+            <li>PD up to 6 hours • Priority support</li>
+          </ul>
+          <div class="btn-row" style="margin-top:10px"><a class="btn" href="#contact">Request a quote</a></div>
+        </div>
+      </div>
+      <details style="margin-top:14px">
+        <summary class="small">FAQs</summary>
+        <div class="panel" style="padding:14px; margin-top:10px">
+          <p><span class="kbd">POs</span> &amp; <span class="kbd">W-9</span> supported • Site & district licenses • Accessibility & SSO quick-start available.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- =======================
+       SECURITY & COMPLIANCE
+       ======================= -->
+  <section class="section" id="security">
+    <div class="container">
+      <div class="eyebrow">Security & Compliance</div>
+      <h2>Privacy by design</h2>
+      <p class="muted" style="max-width:820px">FERPA/COPPA/GDPR aligned. District DPA, SSO/SIS/LMS, and a walled-garden approach. Data is never used to train public models.</p>
+
+      <div class="grid grid-2" style="margin-top:16px">
+        <div class="panel" style="padding:18px">
+          <div class="kpi">
+            <span class="badge">Tenant isolation</span>
+            <span class="badge">Retention clarity</span>
+            <span class="badge">Transparent sub-processors</span>
+          </div>
+          <h3 style="margin-top:12px">Data boundaries</h3>
+          <p>Free/Pro workspaces avoid student PII. Enterprise operates in a district-owned data perimeter with audit controls.</p>
+        </div>
+        <div class="panel" style="padding:18px">
+          <div class="kpi">
+            <span class="badge">SSO</span>
+            <span class="badge">SIS/LMS</span>
+            <span class="badge">Least privilege</span>
+          </div>
+          <h3 style="margin-top:12px">Secure integrations</h3>
+          <p>Google/Microsoft SSO; SIS/LMS roster sync with scoped permissions and logging.</p>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:14px">
+        <a class="btn secondary" href="#contact">Request our DPA</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================
+       RESOURCES
+       ======================= -->
+  <section class="section panel-soft" id="resources">
+    <div class="container">
+      <div class="eyebrow">Resources</div>
+      <h2>Templates, Academy, and case studies</h2>
+      <div class="grid grid-3" style="margin-top:16px">
+        <div class="card">
+          <h3>Templates Library</h3>
+          <p>Unit plans, exit tickets, and rubrics by standard/grade.</p>
+          <p><a href="#templates">Browse templates →</a></p>
+        </div>
+        <div class="card">
+          <h3>Coach Gaga Academy</h3>
+          <p>Level 1 (free) and Level 2 (Pro) certifications; live webinars.</p>
+          <p><a href="#academy">Start Level 1 →</a></p>
+        </div>
+        <div class="card">
+          <h3>Case Studies</h3>
+          <p>One-page outcomes with charts; admin-friendly PDFs.</p>
+          <p><a href="#cases">See case studies →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================
+       COMPANY
+       ======================= -->
+  <section class="section" id="company">
+    <div class="container">
+      <div class="eyebrow">Company</div>
+      <h2>About Coach Gaga</h2>
+      <p class="muted" style="max-width:820px">Built by the ClassGaga team to bring trustworthy, math-first AI to K-12. Our mission is simple: give every teacher a reliable math coach—and every student a better learning experience.</p>
+      <div class="panel" style="padding:18px; margin-top:14px">
+        <h3>Press & media</h3>
+        <p>Looking to cover Coach Gaga? Download our media kit or contact our team.</p>
+        <div class="btn-row" style="margin-top:10px">
+          <a class="btn secondary" href="#media">Media kit</a>
+          <a class="btn" href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================
+       FOOTER
+       ======================= -->
+  <footer role="contentinfo">
+    <div class="container cols">
+      <div>
+        <div class="brand"><span class="logo" aria-hidden="true"></span><span>Coach Gaga</span></div>
+        <p class="small" style="margin-top:8px">The trusted math coach for K-12.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul class="small">
+          <li><a href="#product">Overview</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#security">Security</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul class="small">
+          <li><a href="#templates">Templates</a></li>
+          <li><a href="#academy">Academy</a></li>
+          <li><a href="#cases">Case studies</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul class="small">
+          <li><a href="#company">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#privacy">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="copyright">© ClassGaga — Coach Gaga. All rights reserved.</p>
+  </footer>
+
+  <!-- =======================
+       JS: Mobile menu + Tabs (a11y)
+       ======================= -->
+  <script>
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if(menuBtn){
+      menuBtn.addEventListener('click', () => {
+        const open = mobileMenu.style.display === 'block';
+        mobileMenu.style.display = open ? 'none' : 'block';
+        menuBtn.setAttribute('aria-expanded', String(!open));
+        mobileMenu.setAttribute('aria-modal', String(!open));
+      });
+      // Close on escape
+      document.addEventListener('keydown', (e)=>{
+        if(e.key==='Escape'){ mobileMenu.style.display='none'; menuBtn.setAttribute('aria-expanded','false'); }
+      });
+    }
+
+    // Tabs
+    const tabButtons = Array.from(document.querySelectorAll('[role="tab"]'));
+    const tabPanels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+    function selectTab(id){
+      tabButtons.forEach(btn=>{
+        const active = btn.id === 'tabbtn-'+id;
+        btn.setAttribute('aria-selected', active);
+        btn.tabIndex = active ? 0 : -1;
+      });
+      tabPanels.forEach(p=>{
+        p.classList.toggle('active', p.id === 'tab-'+id);
+      });
+    }
+    tabButtons.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = btn.id.replace('tabbtn-','');
+        selectTab(id);
+      });
+      btn.addEventListener('keydown', (e)=>{
+        const idx = tabButtons.indexOf(btn);
+        if(e.key==='ArrowRight'){ (tabButtons[idx+1]||tabButtons[0]).focus(); }
+        if(e.key==='ArrowLeft'){ (tabButtons[idx-1]||tabButtons[tabButtons.length-1]).focus(); }
+      });
+    });
+  </script>
+</body>
+</html>
